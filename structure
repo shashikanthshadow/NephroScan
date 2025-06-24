@@ -1,0 +1,36 @@
+NephroScan/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                # Flask entrypoint
+│   ├── routes.py              # Routes (Upload, Chat, Report)
+│   ├── utils/
+│   │   ├── classification.py  # Custom ResNet18 code
+│   │   ├── localization.py    # YOLOv8 localization
+│   │   ├── chatbot.py         # LLM chatbot + RAG
+│   │   ├── report.py          # AI report generator
+│   │   └── risk_model.py      # Kidney stone risk assesments
+├── templates/
+│   └── index.html     
+    ├──result.html
+    ├── risk_quiz.html  
+    └──report_pdf.html
+     # Basic web interface
+├── static/
+│   └── uploaded/   # Save CT images
+    └──localized/
+    └──            
+├── models/
+│   ├── ResNet18_Optimized_AntiOverfit.pth
+│   └── yolov8_localizer.pt
+    └──kidney_stone_rf_model.joblib
+    └─kidney_stone_scaler.joblib
+    └─kindey stone urine analysis.csv
+├── rag/
+│   ├── faiss_index.faiss      # RAG vector store
+│   └── documents/             # Nephrology PDFs
+├── requirements.txt
+├── kidney_env.yml
+└── run.py # Shortcut to run app
+this is my blue print 
+
+

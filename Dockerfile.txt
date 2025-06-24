@@ -1,0 +1,26 @@
+# Use an official PyTorch image with CUDA (optional, if you want GPU support)
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+# Set working directory
+WORKDIR /app
+
+# Copy entire project into container
+COPY . .
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-dev \
+    build-essential \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Expose Flask port
+EXPOSE 5000
+
+# Run the app
+CMD ["python", "run.py"]

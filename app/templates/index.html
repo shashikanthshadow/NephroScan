@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kidney CT Diagnosis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top left, #1e1e2f, #0f0f1a);
+      color: #e0e0ff;
+      margin: 0;
+      padding: 40px;
+      position: relative;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 750px;
+      margin: auto;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    h2, h3 {
+      color: #00ffe7;
+      margin-bottom: 20px;
+      text-shadow: 0 0 5px #00fff2;
+    }
+
+    input[type="file"], input[type="text"] {
+      background: #1e1e2f;
+      color: #ffffff;
+      border: 1px solid #00ffe7;
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00ffe7, #009fff);
+      border: none;
+      color: #000;
+      padding: 12px 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffe7;
+    }
+
+    #chatbox {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      height: 220px;
+      overflow-y: auto;
+      color: #e0e0ff;
+      margin-bottom: 15px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+
+    #chatInput {
+      width: 75%;
+      display: inline-block;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+      #chatInput {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      button {
+        width: 100%;
+      }
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 120px;
+      color: rgba(0, 255, 255, 0.5);
+      text-align: center;
+      font-weight: bold;
+      pointer-events: none;
+      z-index: 0;
+      text-shadow: 0 0 20px #00ffe7, 0 0 30px #00ffe7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="watermark">NephroScan</div>
+
+  <div class="container">
+    <h2>🧬 Diagnose Your Kidney CT Scan</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Diagnose</button>
+    </form>
+
+    {% if error %}
+      <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <h3>💬 Ask the AI About Your Kidney Health</h3>
+    <div id="chatbox">🧠 Hello! Ask me about kidney cysts, stones, or tumors.</div>
+    <input type="text" id="chatInput" placeholder="Ask about cysts, stones, tumors, etc...">
+    <button onclick="sendMessage()">Send</button>
+
+    <div style="margin-top: 20px;">
+      <a href="{{ url_for('routes.risk_quiz') }}" style="color:#00ffe7;">Take Risk Assessment Quiz</a>
+    </div>
+  </div>
+
+  <script>
+    const label = "{{ label }}";
+
+    function sendMessageWithMsg(msg) {
+      const chatbox = document.getElementById("chatbox");
+      const input = document.getElementById("chatInput");
+      const message = msg || input.value.trim();
+      if (!message) return;
+
+      chatbox.innerHTML += `\nYou: ${message}`;
+
+      fetch("/chat", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: "message=" + encodeURIComponent(message)
+      })
+      .then(response => response.json())
+      .then(data => {
+        chatbox.innerHTML += `\nAI: ${data.response.text}`;
+        chatbox.scrollTop = chatbox.scrollHeight;
+      });
+
+      if (!msg) input.value = "";
+    }
+
+    function sendMessage() {
+      sendMessageWithMsg();
+    }
+
+    if (label && label.toLowerCase() !== "normal") {
+      const autoMessage = `What is a ${label}?`;
+      setTimeout(() => sendMessageWithMsg(autoMessage), 1000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NephroScan PDF Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #111;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      border: 2px solid #00bcd4;
+      padding: 30px;
+      border-radius: 12px;
+      position: relative;
+      page-break-inside: avoid;
+      box-sizing: border-box;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 60px;
+      color: rgba(0, 188, 212, 0.05);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00bcd4;
+      margin-bottom: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 380px;
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 2px solid #00bcd4;
+      border-radius: 8px;
+      page-break-inside: avoid;
+    }
+
+    .report {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+    }
+
+    .timestamp {
+      text-align: right;
+      font-size: 12px;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    .btn-download.no-print {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .no-print {
+      display: block;
+    }
+
+    @media print {
+      .no-print {
+        display: none;
+      }
+    }
+
+    button {
+      background-color: #00bcd4;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #555;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .warning {
+      font-size: 14px;
+      color: #d32f2f;
+      margin-top: 10px;
+    }
+
+    .debug {
+      font-size: 12px;
+      color: #ff6f00;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="pdfArea">
+    <div class="watermark">NephroScan</div>
+
+    <h1>🧠 Nephrology Diagnostic Report</h1>
+
+    {% if localized_image_url %}
+      <img src="{{ url_for('static', filename=localized_image_url) }}" alt="Localized CT Image">
+      <p class="note">Note: Red rectangles indicate detected regions (e.g., Top Right, Middle Left, Middle Down).</p>
+    {% else %}
+      <p><strong>No localized image available.</strong></p>
+    {% endif %}
+
+    <div class="report">
+      <h3>📄 Diagnosis: {{ label | capitalize }}</h3>
+      <pre>{{ report }}</pre>
+
+      <!-- Debug Info -->
+      <p class="debug">[Debug] Label: {{ label }}, Regions: {{ regions }}</p>
+
+      {% if label|lower != 'normal' %}
+        {% if regions %}
+          <h4>📌 Detected Regions:</h4>
+          <ul>
+            {% for region in regions %}
+              <li>{{ region }}</li>
+            {% endfor %}
+          </ul>
+          <p class="note">Note: Model accuracy is 89%. Blurry images or small abnormalities may affect results. Consult a nephrologist to confirm these locations.</p>
+        {% else %}
+          <h4>📌 Detected Regions:</h4>
+          <p class="warning">⚠️ The model was unable to localize regions, possibly due to low image quality, inability to extract features, or model limitations (89% accuracy).</p>
+          <p class="note">Consult a nephrologist for a detailed review. Drink more water and reduce salty or oxalate-rich foods (e.g., nuts, tea) to lower risk.</p>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="timestamp">🕒 Generated on: {{ current_time }}</div>
+  </div>
+
+  <!-- Button hidden in PDF -->
+  <div class="btn-download no-print">
+    <button onclick="downloadPDF()">⬇️ Download PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('pdfArea');
+      const opt = {
+        margin: 0,
+        filename: 'NephroScan_Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
