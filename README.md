@@ -1,16 +1,3 @@
-Thanks for sharing the blueprint! Here's a refined and properly formatted version of your README.md including:
-
-Correct Markdown tree indentation
-
-Clean sections
-
-GitHub-friendly formatting
-
-Ready to upload to your GitHub repo ✅
-
-markdown
-Copy
-Edit
 # 🧠 NephroScan – AI-Powered Kidney Disease Detection Platform
 
 **NephroScan** is a comprehensive Flask-based AI application for kidney disease screening, diagnosis, and health risk assessment using deep learning and large language models. It supports CT scan classification, abnormality localization, report generation, chatbot queries using RAG (Retrieval-Augmented Generation), and kidney stone risk prediction.
@@ -65,24 +52,15 @@ NephroScan/
 └── run.py                     # Shortcut to run app
 ⚙️ Installation
 1. Clone the Repository
-bash
-Copy
-Edit
+
 git clone https://github.com/yourusername/NephroScan.git
 cd NephroScan
 2. Set Up Environment
 Using conda:
-
-bash
-Copy
-Edit
 conda env create -f kidney_env.yml
 conda activate kidney_env
-Or manually with venv:
 
-bash
-Copy
-Edit
+Or manually with venv:
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -131,18 +109,9 @@ This project is open-sourced under the MIT License.
 
 👨‍💻 Author
 K Shashikanth Rao
-💼 MCA Graduate | Data Scientist Intern
 📧 shashi19rao@gmail.com
 
-markdown
 
-
-> ✅ Let me know if you also want:
-> - A **sample GIF/screenshot section**
-> - `.gitignore` template  
-> - `LICENSE` file  
-> - Auto-deploy with GitHub Actions  
-> - Markdown badge icons (Python version, Flask, license, etc.)
 
 
 
