@@ -11,12 +11,12 @@ NephroScan is an AI-powered system designed to assist in the diagnosis and risk 
 
 ## 🧐 Features
 
-  * **Image Classification**: Classifies kidney CT scans as **Cyst**, **Normal**, **Stone**, or **Tumor** with a **95%** accuracy using a fine-tuned ResNet18 model[cite: 36, 67, 83].
-  * **Abnormality Localization**: Pinpoints the exact location of cysts, stones, and tumors on CT scans using the YOLOv8 Nano model, achieving an **89.8% mAP**[cite: 67, 84, 116].
-  * **Kidney Stone Risk Prediction**: Predicts the risk of kidney stones with a **96%** accuracy on a large test set using a Random Forest classifier and urine analysis data[cite: 67, 85, 478].
-  * **Interactive Chatbot**: An integrated chatbot ("NephroBot") provides simplified, context-aware answers to user questions about kidney health and diagnoses[cite: 69, 87, 188, 224].
-  * **Automated Report Generation**: Generates a downloadable PDF report containing the diagnostic results, an annotated image, and risk predictions[cite: 70, 86, 220, 516].
-  * **Web Application**: A Flask-based web interface allows for easy uploading of CT scans and input of risk quiz data[cite: 68, 86, 209].
+  * **Image Classification**: Classifies kidney CT scans as **Cyst**, **Normal**, **Stone**, or **Tumor** with a **95%** accuracy using a fine-tuned ResNet18 model.
+  * **Abnormality Localization**: Pinpoints the exact location of cysts, stones, and tumors on CT scans using the YOLOv8 Nano model, achieving an **89.8% mAP**.
+  * **Kidney Stone Risk Prediction**: Predicts the risk of kidney stones with a **96%** accuracy on a large test set using a Random Forest classifier and urine analysis dat.
+  * **Interactive Chatbot**: An integrated chatbot ("NephroBot") provides simplified, context-aware answers to user questions about kidney health and diagnoses.
+  * **Automated Report Generation**: Generates a downloadable PDF report containing the diagnostic results, an annotated image, and risk predictions.
+  * **Web Application**: A Flask-based web interface allows for easy uploading of CT scans and input of risk quiz data.
 
 
 
