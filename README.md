@@ -18,6 +18,9 @@ NephroScan is an AI-powered system designed to assist in the diagnosis and risk 
   * **Automated Report Generation**: Generates a downloadable PDF report containing the diagnostic results, an annotated image, and risk predictions.
   * **Web Application**: A Flask-based web interface allows for easy uploading of CT scans and input of risk quiz data.
 
+![NephroScan](assets/demo.gif)
+
+
 
 
 -----
