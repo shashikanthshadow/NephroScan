@@ -1,122 +1,86 @@
-# 🧠 NephroScan – AI-Powered Kidney Disease Detection Platform
-
-**NephroScan** is a comprehensive Flask-based AI application for kidney disease screening, diagnosis, and health risk assessment using deep learning and large language models. It supports CT scan classification, abnormality localization, report generation, chatbot queries using RAG (Retrieval-Augmented Generation), and kidney stone risk prediction.
-
----
-
-## 🚀 Features
-
-- 🔍 **CT Scan Classification** – Predicts `normal`, `cyst`, `stone`, or `tumor` using ResNet18.
-- 🧭 **Disease Localization** – Highlights affected kidney regions with YOLOv8.
-- 📝 **Auto Medical Reports** – Generates AI-based diagnosis and summaries.
-- 💬 **Chatbot (RAG)** – Answers nephrology questions with MiniLM + FAISS.
-- 📊 **Risk Assessment Quiz** – Predicts kidney stone risk using Random Forest.
-- 🗂️ **Session State** – Preserves user inputs and results across views.
-- 🖼️ **Recent Localized API** – Returns list of recent localized images.
-
----
-
-## 📁 Project Structure
-
-```plaintext
-NephroScan/
-├── app/
-│   ├── __init__.py
-│   ├── main.py                # Flask entrypoint
-│   ├── routes.py              # Routes: Upload, Chat, Report, Quiz
-│   ├── utils/
-│   │   ├── classification.py  # ResNet18 inference
-│   │   ├── localization.py    # YOLOv8 localization
-│   │   ├── chatbot.py         # Chatbot with MiniLM & FAISS
-│   │   ├── report.py          # Report generator
-│   │   └── risk_model.py      # Kidney risk prediction logic
-├── templates/
-│   ├── index.html
-│   ├── results.html
-│   ├── report_pdf.html
-│   └── risk_quiz.html
-├── static/
-│   ├── uploaded/              # User-uploaded CT scans
-│   └── localized/             # Localized/annotated output
-├── models/
-│   ├── ResNet18_Optimized_AntiOverfit.pth
-│   ├── yolov8_localizer.pt
-│   ├── kidney_stone_rf_model.joblib
-│   ├── kidney_stone_scaler.joblib
-│   └── kindey stone urine analysis.csv
-├── rag/
-│   ├── faiss_index.faiss      # Vector store
-│   └── documents/             # Source documents for RAG
-├── requirements.txt           # Python dependencies
-├── kidney_env.yml             # Conda environment file
-└── run.py                     # Shortcut to run app
-⚙️ Installation
-1. Clone the Repository
-
-git clone https://github.com/yourusername/NephroScan.git
-cd NephroScan
-2. Set Up Environment
-Using conda:
-conda env create -f kidney_env.yml
-conda activate kidney_env
-
-Or manually with venv:
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-3. Download / Place Required Models
-Ensure the following files are in the models/ directory:
-
-ResNet18_Optimized_AntiOverfit.pth
-
-yolov8_localizer.pt
-
-kidney_stone_rf_model.joblib
-
-kidney_stone_scaler.joblib
-
-Also, rag/faiss_index.faiss must exist (generated from document embeddings).
-
-▶️ Running the App
-python run.py
-Visit http://localhost:5000 to access the app.
-
-🌐 Main Routes
-Route	Function
-/	Upload CT image and view classification
-/results	Shows localized image and report
-/pdf_preview	PDF-like printable report
-/chat (POST)	Chatbot Q&A with RAG
-/risk-quiz	Health quiz for risk prediction
-/api/localized-images	Lists recent localized image files
-
-🤖 AI Models Used
-Task	Model
-Classification	ResNet18 (Custom-trained)
-Localization	YOLOv8 (Kidney regions)
-Chatbot (RAG)	MiniLM + FAISS vector search
-Risk Prediction	Random Forest (trained on CSV dataset)
-
-🧪 Sample Use Cases
-Upload a CT image → get disease prediction + bounding box.
-
-Ask: “What causes kidney stones?” in chatbot.
-
-Try the risk quiz to get insights into your health.
-
-📄 License
-This project is open-sourced under the MIT License.
-
-👨‍💻 Author
-K Shashikanth Rao
-📧 shashi19rao@gmail.com
 
 
 
+# NephroScan: An AI-Powered System for Kidney Disease Detection and Risk Prediction
+
+NephroScan is an AI-powered system designed to assist in the diagnosis and risk prediction of kidney conditions. [cite\_start]It integrates multiple machine learning models within a user-friendly Flask web application to automate the analysis of CT scans and urine test data.
 
 
 
+-----
+
+## 🧐 Features
+
+  * **Image Classification**: Classifies kidney CT scans as **Cyst**, **Normal**, **Stone**, or **Tumor** with a **95%** accuracy using a fine-tuned ResNet18 model[cite: 36, 67, 83].
+  * **Abnormality Localization**: Pinpoints the exact location of cysts, stones, and tumors on CT scans using the YOLOv8 Nano model, achieving an **89.8% mAP**[cite: 67, 84, 116].
+  * **Kidney Stone Risk Prediction**: Predicts the risk of kidney stones with a **96%** accuracy on a large test set using a Random Forest classifier and urine analysis data[cite: 67, 85, 478].
+  * **Interactive Chatbot**: An integrated chatbot ("NephroBot") provides simplified, context-aware answers to user questions about kidney health and diagnoses[cite: 69, 87, 188, 224].
+  * **Automated Report Generation**: Generates a downloadable PDF report containing the diagnostic results, an annotated image, and risk predictions[cite: 70, 86, 220, 516].
+  * **Web Application**: A Flask-based web interface allows for easy uploading of CT scans and input of risk quiz data[cite: 68, 86, 209].
 
 
+
+-----
+
+## 📂 Project Structure
+
+```
+├── NephroScan/
+│   ├── static/             # CSS, JS, and image assets
+│   ├── templates/          # HTML templates for the web app
+│   ├── models/             # Pre-trained model weights (e.g., ResNet18, YOLOv8)
+│   ├── classification.py   # ResNet18 model implementation
+│   ├── localization.py     # YOLOv8 model implementation
+│   ├── chatbot.py          # RAG-based chatbot logic
+│   ├── report.py           # PDF report generation script
+│   ├── risk_model.py       # Random Forest model implementation
+│   └── run.py              # Main Flask application entry point
+├── requirements.txt        # Python dependencies
+└── README.md
+```
+
+
+
+-----
+
+## 🛠️ Installation
+
+### Prerequisites
+
+  * Python 3.8+
+  * A GPU is recommended for faster YOLOv8 inference[cite: 584].
+
+### Steps
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/NephroScan.git
+    cd NephroScan
+    ```
+2.  **Create a virtual environment** (optional but recommended):
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
+3.  **Install the required libraries**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+      * The `requirements.txt` file includes `Flask`, `PyTorch`, `Ultralytics YOLOv8`, `scikit-learn`, `FAISS`, and `all-MiniLM-L6-v2`.
+
+
+-----
+
+## 🚀 Usage
+
+1.  **Run the Flask application**:
+    ```bash
+    python run.py
+    ```
+2. Open your web browser and navigate to `http://127.0.0.1:5000` to access the application.
+3. Upload a CT scan, fill out the risk quiz, or interact with the chatbot to use the system's features.
+
+
+-----
 
 
