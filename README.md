@@ -57,7 +57,7 @@ NephroScan is an AI-powered system designed to assist in the diagnosis and risk 
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/NephroScan.git
+    git clone https://github.com/shashikanthshadow/NephroScan.git
     cd NephroScan
     ```
 2.  **Create a virtual environment** (optional but recommended):
